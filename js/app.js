@@ -1,6 +1,6 @@
    var timeoutPromise;
         $url = "https://pixabay.com/api/";
-        $key = "API-KEY"; // your api key, https://pixabay.com/api/docs/#api_key
+        $key = "11112624-06f0eb3bbe7a5b94cf0b551b8"; // your api key, https://pixabay.com/api/docs/#api_key
         $per_page = 100;
         var myApp = angular.module('myApp', []);
         myApp.directive('ngEnter', function ($timeout) {
