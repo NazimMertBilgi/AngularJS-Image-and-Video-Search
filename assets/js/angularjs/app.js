@@ -1,1 +1,1 @@
-angular.module('app', ['ngController', 'ngDirective', 'ngFactory']);
+angular.module('app', ['ngController', 'ngDirective', 'ngFactory', 'ngFilter']);

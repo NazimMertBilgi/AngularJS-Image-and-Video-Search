@@ -23,6 +23,12 @@
 </head>
 
 <body data-ng-app="app" data-ng-controller="mainCtrl">
+    <!-- Fork me on GitHub -->
+    <a href="https://github.com/NazimMertBilgi/AngularJS-Image-and-Video-Search" class="fork-me-on-github-sticker">
+        <img src="assets/images/fork-me-on-github-sticker.png" alt="Fork me on GitHub">
+    </a>
+    <!-- #END# Fork me on GitHub -->
+
     <!-- Scroll To Top -->
     <scroll-to-top title="Scroll To Top"></scroll-to-top>
     <!-- #END# Scroll To Top -->
@@ -33,27 +39,32 @@
             <h1>The picture and video you're looking for is in seconds.</h1>
             <!-- Search Input -->
             <div class="input-group">
-                <input type="text" class="form-control search-input" placeholder="Search for..." data-ng-model="search.term">
+                <input type="text" class="form-control search-input" placeholder="Search for..." data-ng-model="search.term"
+                    data-ng-model-options="{ debounce: 500 }" data-ng-change="makeSearch();" autofocus>
                 <span class="input-group-btn">
-                    <select class="form-control search-type" data-ng-model="search.type">
+                    <select class="form-control search-type" data-ng-model="search.type" data-ng-change="makeSearch(false);">
                         <option value="images">Images</option>
                         <option value="videos">Videos</option>
                     </select>
-                    <button class="btn btn-default" type="button" data-ng-click="makeSearch();">SEARCH</button>
+                    <button class="btn btn-default" type="button" data-ng-click="makeSearch(false);">SEARCH</button>
                 </span>
             </div>
             <!-- #END# Search Input -->
+            <!-- Search Info -->
+            <div class="info-area" data-ng-bind-html="search.info_text | unsafe"></div>
+            <!-- #END# Search Info -->
         </div>
     </div>
     <!-- #END# Search Filter -->
-
-    <p>{{search.result.totalHits}} items found.</p>
     <!-- Search Result -->
     <div class="container search-result-container">
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-6 col-md-4" data-ng-repeat="item in search.result.hits">
-                <div class="image-result-container">
-                    <a class="preview" data-ng-style="{{generateBgImage(item.webformatURL)}}" data-ng-href="{{item.largeImageURL}}" data-fancybox="gallery" data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
+                <!-- Image Result -->
+                <div class="image-result-container" data-ng-show="search.searched_type === 'images'">
+                    <a class="preview" data-ng-style="{{generateBgImage(item.webformatURL)}}" data-ng-href="{{item.largeImageURL}}"
+                        data-fancybox="image" data-options='{"buttons":["zoom","share","slideShow","fullScreen","close"]}'
+                        data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
                         <div class="download">
                             <i class="fa fa-download"></i>
                             <span data-ng-bind="item.downloads"></span>
@@ -63,21 +74,62 @@
                         <div class="media">
                             <div class="media-left">
                                 <a target="_blank" data-ng-href="{{item.pageURL}}">
-                                    <img class="media-object" data-ng-src={{item.userImageURL}} alt="{{item.user}}"
+                                    <img class="media-object" data-ng-src={{item.userImageURL}} alt="{{item.user}}" src="assets/images/loading-holder.png"
                                         width="36" height="36">
                                 </a>
                             </div>
                             <div class="media-body">
                                 <a target="_blank" data-ng-href="{{item.pageURL}}">
-                                    <h4 class="media-heading" data-ng-bind="item.user"></h4>
+                                    <h4 class="media-heading" data-ng-bind="item.user">&nbsp;</h4>
                                 </a>
                                 <p class="tag" title="{{item.tags}}"><i class="fa fa-tags"></i> <span data-ng-bind="item.tags"></span></p>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- #END# Image Result -->
+                <!-- Video Result -->
+                <div class="video-result-container" data-ng-show="search.searched_type === 'videos'">
+                    <a class="preview" data-ng-style="{{generateBgImageForVideo(item.picture_id)}}" data-ng-href="{{item.videos.large.url}}"
+                        data-fancybox="video" data-options='{"buttons":["close"]}' data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
+                        <div class="download">
+                            <i class="fa fa-download"></i>
+                            <span data-ng-bind="item.downloads"></span>
+                        </div>
+                        <div class="play-btn">
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                    <div class="author-area">
+                        <div class="media">
+                            <div class="media-left">
+                                <a target="_blank" data-ng-href="{{item.pageURL}}">
+                                    <img class="media-object" data-ng-src={{item.userImageURL}} alt="{{item.user}}" src="assets/images/loading-holder.png"
+                                        width="36" height="36">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <a target="_blank" data-ng-href="{{item.pageURL}}">
+                                    <h4 class="media-heading" data-ng-bind="item.user">&nbsp;</h4>
+                                </a>
+                                <p class="tag" title="{{item.tags}}"><i class="fa fa-tags"></i> <span data-ng-bind="item.tags"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Video Result -->
             </div>
         </div>
+        <!-- Result loading -->
+        <div class="loading" data-ng-show="search.show_loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </div>
+        <!-- #END# Result loading -->
+        <!-- Show more button -->
+        <div class="show-more-container" data-ng-show="search.show_more_btn">
+            <button class="btn btn-sm btn-default" data-ng-click="makeSearch(true);">SHOW MORE</button>
+        </div>
+        <!-- #END# Show more button -->
     </div>
     <!-- #END# Search Result -->
 
@@ -121,10 +173,7 @@
     <script src="assets/js/angularjs/controller.js"></script>
     <script src="assets/js/angularjs/directive.js"></script>
     <script src="assets/js/angularjs/factory.js"></script>
-
-    <!-- Pace Loader -->
-    <script src="assets/lib/PACE/pace.min.js"></script>
-
+    <script src="assets/js/angularjs/filter.js"></script>
 </body>
 
 </html>

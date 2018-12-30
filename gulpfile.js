@@ -30,7 +30,6 @@ gulp.task('watch', function () {
 //Build
 gulp.task('build', ['compile-scss'], function () {
     gulp.run('minify-css');
-
 });
 
 //Compile Scss Files
