@@ -1,214 +1,130 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NMB Image Search with AngularJS</title>
+    <title>AngularJS - Image and Video Search</title>
 
-    <!-- mobile specific metas
-    ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700">
 
-    <!-- CSS
-    ================================================== -->
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" href="css/main.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.min.css">
 
-    <!-- script
-    ================================================== -->
-    <script src="lib/jquery/dist/jquery.js"></script>
-    <script src="lib/angular/angular.min.js"></script>
-    <script src="js/modernizr.js"></script>
-    <script src="js/pace.min.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/lib/font-awesome/css/font-awesome.min.css">
 
+    <!-- Fancybox -->
+    <link rel="stylesheet" href="assets/lib/fancybox/dist/jquery.fancybox.min.css">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body ng-app="myApp" onload="$('#searchTerm').focus()">
 
-        <!-- preloader
-        ================================================== -->
-        <div id="preloader">
-            <div id="loader" class="dots-jump">
-                <div></div>
-                <div></div>
-                <div></div>
+<body data-ng-app="app" data-ng-controller="mainCtrl">
+    <!-- Scroll To Top -->
+    <scroll-to-top title="Scroll To Top"></scroll-to-top>
+    <!-- #END# Scroll To Top -->
+
+    <!-- Search Filter -->
+    <div class="search-filter-area">
+        <div class="container">
+            <h1>The picture and video you're looking for is in seconds.</h1>
+            <!-- Search Input -->
+            <div class="input-group">
+                <input type="text" class="form-control search-input" placeholder="Search for..." data-ng-model="search.term">
+                <span class="input-group-btn">
+                    <select class="form-control search-type" data-ng-model="search.type">
+                        <option value="images">Images</option>
+                        <option value="videos">Videos</option>
+                    </select>
+                    <button class="btn btn-default" type="button" data-ng-click="makeSearch();">SEARCH</button>
+                </span>
             </div>
+            <!-- #END# Search Input -->
         </div>
+    </div>
+    <!-- #END# Search Filter -->
 
-        <!-- header
-        ================================================== display:none manual -->
-        <header class="s-header" style="display:none">
-
-            <div class="row">
-
-                <div class="header-logo">
-                    <a class="site-logo" href="index.html"><img src="images/logo.svg" alt="Homepage"></a>
-                </div>
-
-                <nav class="header-nav-wrap">
-                    <ul class="header-nav">
-                        <li class="current"><a class="smoothscroll" href="#home" title="home">Home</a></li>
-                        <li><a class="smoothscroll" href="#about" title="about">About</a></li>
-                        <li><a class="smoothscroll" href="#services" title="services">Services</a></li>
-                        <li><a class="smoothscroll" href="#works" title="works">Works</a></li>
-                        <li><a class="smoothscroll" href="#contact" title="contact">Contact</a></li>
-                    </ul>
-                </nav> <!-- end header-nav-wrap -->
-
-                <a class="header-menu-toggle" href="#0">
-                    <span class="header-menu-icon"></span>
-                </a>
-
-            </div> <!-- end row -->
-
-        </header> <!-- end s-header -->
-        <!-- home
-        ================================================== -->
-        <section style="display:none" id="home" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="images/hero-bg.jpg" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
-
-            <div class="shadow-overlay"></div>
-
-        </section> <!-- end s-home -->
-
-        <!-- photoswipe background
-    ================================================== -->
-        <div aria-hidden="true" class="pswp" role="dialog" tabindex="-1">
-
-            <div class="pswp__bg"></div>
-            <div class="pswp__scroll-wrap">
-
-                <div class="pswp__container">
-                    <div class="pswp__item"></div>
-                    <div class="pswp__item"></div>
-                    <div class="pswp__item"></div>
-                </div>
-
-                <div class="pswp__ui pswp__ui--hidden">
-                    <div class="pswp__top-bar">
-                        <div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title="Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                        <div class="pswp__preloader">
-                            <div class="pswp__preloader__icn">
-                                <div class="pswp__preloader__cut">
-                                    <div class="pswp__preloader__donut"></div>
-                                </div>
+    <p>{{search.result.totalHits}} items found.</p>
+    <!-- Search Result -->
+    <div class="container search-result-container">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-6 col-md-4" data-ng-repeat="item in search.result.hits">
+                <div class="image-result-container">
+                    <a class="preview" data-ng-style="{{generateBgImage(item.webformatURL)}}" data-ng-href="{{item.largeImageURL}}" data-fancybox="gallery" data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
+                        <div class="download">
+                            <i class="fa fa-download"></i>
+                            <span data-ng-bind="item.downloads"></span>
+                        </div>
+                    </a>
+                    <div class="author-area">
+                        <div class="media">
+                            <div class="media-left">
+                                <a target="_blank" data-ng-href="{{item.pageURL}}">
+                                    <img class="media-object" data-ng-src={{item.userImageURL}} alt="{{item.user}}"
+                                        width="36" height="36">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <a target="_blank" data-ng-href="{{item.pageURL}}">
+                                    <h4 class="media-heading" data-ng-bind="item.user"></h4>
+                                </a>
+                                <p class="tag" title="{{item.tags}}"><i class="fa fa-tags"></i> <span data-ng-bind="item.tags"></span></p>
                             </div>
                         </div>
                     </div>
-                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                        <div class="pswp__share-tooltip"></div>
-                    </div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-                    <div class="pswp__caption">
-                        <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Search Result -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-xs-12 col-sm-8">
+                    <p><b>AngularJS - Image and Video Search</b></p>
+                    <p>All pictures and videos come from <a href="https://pixabay.com" target="_blank">Pixabay</a>.</p>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="pull-right">
+                        <audio controls>
+                            <source src="assets/audio/sifirbir.mp3" type="audio/mp3">
+                            Your browser does not support the audio element.
+                        </audio>
                     </div>
                 </div>
-
             </div>
-
-        </div><!-- end photoSwipe background -->
-        <!-- Java Script
-    ================================================== -->
-
-
-<!-- works
-       ================================================== -->
-<section id="works" class="s-works target-section" ng-controller="myController" ng-init="type='';loadingEffect=false;sayi=100;">
-
-    <div class="row section-header" data-aos="fade-up">
-        <div class="col-full">
-            <h1 class="display-1">
-                The picture and video you're looking for is in seconds.
-            </h1>
-            <center>
-                <form id="mc-form" class="group mc-form" novalidate="true">
-                    <input type="text" style="background-color:black;color:white" class="email" ng-enter="SearchImage()" id="searchTerm" ng-model="searchTerm" placeholder="search term.." required="">
-                    <input type="button" ng-click="SearchImage()" name="search" value="Search">
-                    <select ng-model="type" style="background-color:black;color:white;float:right;width:143px;margin-top:-20px;" ng-change="SearchImage()"><option value="">Images</option><option value="videos">Videos</option></select>
-                </form>
-              
-                <h2 ng-if="searchTerm.length">"{{searchTerm}}" images, videos..</h2>
-                <img src="images/loading.gif" ng-if="loadingEffect&&searchTerm.length != 0" />
-                <h2 ng-if="searchTerm.length&&jsondata.length==0">No results found. You can try entering a different search term.</h2>
-            </center>
-
         </div>
-    </div>
+    </footer>
+    <!-- #END# Footer -->
 
-    <div class="portfolio block-1-4 block-m-1-3 block-tab-1-2 collapse">
+    <!-- jQuery Plugins -->
+    <script src="assets/lib/jquery/dist/jquery.min.js"></script>
 
-        <div class="col-block item-folio{{type}}" data-aos="fade-up" ng-repeat="item in jsondata" ng-show="!loadingEffect">
+    <!-- Bootstrap Js Plugins -->
+    <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
-            <div class="item-folio__thumb">
-                <a href="{{item.largeImageURL}}" class="thumb-link" title="{{searchTerm}}" data-size="1050x700">
-                    <img ng-if="type == ''" style="width:474px;height:358px" src="{{item.webformatURL}}" />
-                </a>
-            </div>
-            <video ng-if="type == 'videos'" controls>
-                <source src="{{item.videos.tiny.url}}" type="video/mp4">
-                Your browser does not support HTML5 video.
-            </video>
-            <div class="item-folio__text">
-                <h3 class="item-folio__title">
-                    <img src="{{item.userImageURL}}" width="64" height="64" /><br /> {{item.user}}
-                </h3>
-                <p class="item-folio__cat">
-                    {{item.tags}}
-                </p>
-            </div>
+    <!-- Fancybox -->
+    <script src="assets/lib/fancybox/dist/jquery.fancybox.min.js"></script>
 
-            <a href="{{item.pageURL}}" target="_blank" class="item-folio__project-link" title="Project link">
-                Project Link by Pixabay
-            </a>
+    <!-- Custom Js -->
+    <script src="assets/js/common-functions.js"></script>
+    <script src="assets/js/constants.js"></script>
 
-            <div class="item-folio__caption">
-                <p><!-- Description --></p>
-            </div>
+    <!-- AngularJs & Custom Packs -->
+    <script src="assets/lib/angular/angular.min.js"></script>
+    <script src="assets/js/angularjs/app.js"></script>
+    <script src="assets/js/angularjs/controller.js"></script>
+    <script src="assets/js/angularjs/directive.js"></script>
+    <script src="assets/js/angularjs/factory.js"></script>
 
-        </div> <!-- end item-folio -->
-
-        
-
-    </div> <!-- end portfolio -->
-    <center>
-        <br />
-        <div ng-if="jsondata!=null && jsondata.length!=0 && loadingEffect==false">
-            <input type="button" ng-click="SearchImage(200)" name="subscribe" value="MORE">
-
-        </div>
-    </center>
-
-</section> <!-- end s-works -->
-
-
-
-        <!-- footer
-        ================================================== -->
-        <footer>
-            <div class="row">
-                <div class="col-full cl-copyright">
-                    <span>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                  <a href="http://nazimmertbilgi.com" target="_blank">Nazım Mert Bilgi</a>'s open source  project. (AngularJS) All pictures and videos come from Pixabay. | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </span>
-                </div>
-                <audio controls>
-                    <source src="lib/sifirbir.mp3" type="audio/mp3">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-
-            <div class="cl-go-top">
-                <a class="smoothscroll" title="Back to Top" onclick="topFunction()" href="#top"></a>
-            </div>
-        </footer>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-
-    <div class="cl-go-top"  onclick="topFunction()">
-        <a class="smoothscroll" id="myBtn" title="Back to Top" href="#top"></a>
-    </div>
-
+    <!-- Pace Loader -->
+    <script src="assets/lib/PACE/pace.min.js"></script>
 
 </body>
+
 </html>

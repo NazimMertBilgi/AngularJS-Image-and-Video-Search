@@ -1,0 +1,30 @@
+footer {
+    background-color: #151515;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    color: rgba(255, 255, 255, 0.50);
+
+    b {
+        color: #ddd;
+    }
+
+    p {
+        &:first-child {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        
+        &:last-child {
+            font-size: 12px;
+        }
+    }
+
+    a {
+        color: #fff;
+
+        &:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+    }
+}
