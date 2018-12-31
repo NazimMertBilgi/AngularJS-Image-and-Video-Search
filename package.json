@@ -1,0 +1,34 @@
+{
+  "name": "angularjs-image-and-video-search",
+  "version": "1.0.0",
+  "description": "Get millions of photos and videos in seconds with AngularJS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "gulp watch",
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NazimMertBilgi/AngularJS-Image-and-Video-Search.git"
+  },
+  "keywords": [
+    "angularjs",
+    "image",
+    "video",
+    "search"
+  ],
+  "author": "NazimMertBilgi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NazimMertBilgi/AngularJS-Image-and-Video-Search/issues"
+  },
+  "homepage": "https://github.com/NazimMertBilgi/AngularJS-Image-and-Video-Search#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-sass": "3.1.0",
+    "gulp-cssmin": "0.1.7",
+    "gulp-rename": "1.2.2"
+  }
+}

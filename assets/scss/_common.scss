@@ -1,0 +1,49 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+
+    * {
+        font-family: 'Montserrat', sans-serif;
+    }
+}
+
+input,
+select,
+button {
+    outline: none !important;
+}
+
+scroll-to-top {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 9999;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    font-size: 21px;
+    text-align: center;
+    line-height: 50px;
+    display: none;
+    @include border-radius(5px);
+    @include transition(background-color .5s);
+
+    &:hover {
+        background-color: #f26522;
+    }
+
+    &:after {
+        font-family: 'FontAwesome',sans-serif;
+        content: '\f062';
+    }
+}
+
+.fork-me-on-github-sticker {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "angularjs-image-and-video-search",
+  "description": "Get millions of photos and videos in seconds with AngularJS.",
+  "main": "index.js",
+  "authors": [
+    "NazimMertBilgi"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angularjs",
+    "image",
+    "video",
+    "search"
+  ],
+  "homepage": "https://github.com/NazimMertBilgi/AngularJS-Image-and-Video-Search",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "angular": "^1.7.5",
+    "bootstrap": "3.3.7",
+    "jquery-validation": "^1.19.0",
+    "font-awesome": "4.7.0",
+    "PACE": "pace-js#^1.0.2",
+    "fancybox": "^3.5.6"
+  }
+}
