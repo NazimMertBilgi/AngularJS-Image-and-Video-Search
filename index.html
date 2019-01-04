@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="assets/lib/fancybox/dist/jquery.fancybox.min.css">
 
     <!-- Custom Css -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
 </head>
 
 <body data-ng-app="app" data-ng-controller="mainCtrl">
@@ -28,19 +28,18 @@
         <img src="assets/images/fork-me-on-github-sticker.png" alt="Fork me on GitHub">
     </a>
     <!-- #END# Fork me on GitHub -->
-
     <!-- Scroll To Top -->
     <scroll-to-top title="Scroll To Top"></scroll-to-top>
     <!-- #END# Scroll To Top -->
-
     <!-- Search Filter -->
     <div class="search-filter-area">
         <div class="container">
-            <h1>The picture and video you're looking for is in seconds.</h1>
+            <!-- Browse this page => js/angularjs/directive.js | Line 13 and 17 -->
+            <h1 id="h1Title">The picture and video you're looking for is in seconds.</h1>
             <!-- Search Input -->
             <div class="input-group">
                 <input type="text" class="form-control search-input" placeholder="Search for..." data-ng-model="search.term"
-                    data-ng-model-options="{ debounce: 500 }" data-ng-change="makeSearch();" autofocus>
+                       data-ng-model-options="{ debounce: 500 }" data-ng-change="makeSearch();" autofocus>
                 <span class="input-group-btn">
                     <select class="form-control search-type" data-ng-model="search.type" data-ng-change="makeSearch(false);">
                         <option value="images">Images</option>
@@ -58,13 +57,13 @@
     <!-- #END# Search Filter -->
     <!-- Search Result -->
     <div class="container search-result-container">
-        <div class="row clearfix">
-            <div class="col-xs-12 col-sm-6 col-md-4" data-ng-repeat="item in search.result.hits">
+        <div class="row clearfix " >
+            <div class="col-xs-12 col-sm-6 col-md-4 ng-hide" data-ng-show="search.result.hits" data-ng-repeat="item in search.result.hits">
                 <!-- Image Result -->
-                <div class="image-result-container" data-ng-show="search.searched_type === 'images'">
+                <div class="image-result-container"  data-ng-show="search.searched_type === 'images'">
                     <a class="preview" data-ng-style="{{generateBgImage(item.webformatURL)}}" data-ng-href="{{item.largeImageURL}}"
-                        data-fancybox="image" data-options='{"buttons":["zoom","share","slideShow","fullScreen","close"]}'
-                        data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
+                       data-fancybox="image" data-options='{"buttons":["zoom","share","slideShow","fullScreen","close"]}'
+                       data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
                         <div class="download">
                             <i class="fa fa-download"></i>
                             <span data-ng-bind="item.downloads"></span>
@@ -75,7 +74,7 @@
                             <div class="media-left">
                                 <a target="_blank" data-ng-href="{{item.pageURL}}">
                                     <img class="media-object" data-ng-src={{item.userImageURL}} alt="{{item.user}}" src="assets/images/loading-holder.png"
-                                        width="36" height="36">
+                                         width="36" height="36">
                                 </a>
                             </div>
                             <div class="media-body">
@@ -91,7 +90,7 @@
                 <!-- Video Result -->
                 <div class="video-result-container" data-ng-show="search.searched_type === 'videos'">
                     <a class="preview" data-ng-style="{{generateBgImageForVideo(item.picture_id)}}" data-ng-href="{{item.videos.large.url}}"
-                        data-fancybox="video" data-options='{"buttons":["close"]}' data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
+                       data-fancybox="video" data-options='{"buttons":["close"]}' data-caption="<img src='{{item.userImageURL}}' width='48' height='48'/><br><b>{{item.user}}</b><br><i class='fa fa-tags'></i> {{item.tags}}">
                         <div class="download">
                             <i class="fa fa-download"></i>
                             <span data-ng-bind="item.downloads"></span>
@@ -105,7 +104,7 @@
                             <div class="media-left">
                                 <a target="_blank" data-ng-href="{{item.pageURL}}">
                                     <img class="media-object" data-ng-src={{item.userImageURL}} alt="{{item.user}}" src="assets/images/loading-holder.png"
-                                        width="36" height="36">
+                                         width="36" height="36">
                                 </a>
                             </div>
                             <div class="media-body">
@@ -121,18 +120,17 @@
             </div>
         </div>
         <!-- Result loading -->
-        <div class="loading" data-ng-show="search.show_loading">
+        <div class="loading ng-hide" data-ng-show="search.show_loading">
             <i class="fa fa-spinner fa-spin"></i>
         </div>
         <!-- #END# Result loading -->
         <!-- Show more button -->
-        <div class="show-more-container" data-ng-show="search.show_more_btn">
+        <div class="show-more-container ng-hide" data-ng-show="search.show_more_btn">
             <button class="btn btn-sm btn-default" data-ng-click="makeSearch(true);">SHOW MORE</button>
         </div>
         <!-- #END# Show more button -->
     </div>
     <!-- #END# Search Result -->
-
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -153,7 +151,6 @@
         </div>
     </footer>
     <!-- #END# Footer -->
-
     <!-- jQuery Plugins -->
     <script src="assets/lib/jquery/dist/jquery.min.js"></script>
 
@@ -164,15 +161,15 @@
     <script src="assets/lib/fancybox/dist/jquery.fancybox.min.js"></script>
 
     <!-- Custom Js -->
-    <script src="assets/js/common-functions.js"></script>
-    <script src="assets/js/constants.js"></script>
+    <script src="assets/js/common-functions.min.js"></script>
+    <script src="assets/js/constants.min.js"></script>
 
     <!-- AngularJs & Custom Packs -->
     <script src="assets/lib/angular/angular.min.js"></script>
-    <script src="assets/js/angularjs/app.js"></script>
-    <script src="assets/js/angularjs/controller.js"></script>
-    <script src="assets/js/angularjs/directive.js"></script>
-    <script src="assets/js/angularjs/factory.js"></script>
+    <script src="assets/js/angularjs/app.min.js"></script>
+    <script src="assets/js/angularjs/controller.min.js"></script>
+    <script src="assets/js/angularjs/directive.min.js"></script>
+    <script src="assets/js/angularjs/factory.min.js"></script>
     <script src="assets/js/angularjs/filter.js"></script>
 </body>
 

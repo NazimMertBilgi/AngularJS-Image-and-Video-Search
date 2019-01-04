@@ -10,8 +10,13 @@ angular.module('ngDirective', [])
 
                     if (scrollTop > 100) {
                         $(element).fadeIn();
+                        // h1Title ID's h1 tag, hide in this index.html.
+                        $("#h1Title").hide("fast");
                     } else {
                         $(element).fadeOut();
+                        // h1Title ID's h1 tag, show in this index.html.
+                        $("#h1Title").fadeIn();
+
                     }
                 });
 

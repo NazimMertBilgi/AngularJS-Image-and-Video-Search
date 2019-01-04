@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskName": "task-AngularJS-Image-and-Video-Search",
+      "appliesTo": "/",
+      "type": "launch"
+    },
+    {
+      "taskName": "task-AngularJS-Image-and-Video-Search",
+      "appliesTo": "/",
+      "type": "launch"
+    }
+  ]
+}
